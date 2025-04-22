@@ -15,7 +15,7 @@
       window.location.href = "https://yourdomain.com/bot-trap"; // link pułapka dla botów
     } else {
       setTimeout(() => {
-        window.location.href = "https://example.com"; // docelowy link dla ludzi
+        window.location.href = " https://detectivedigital.github.io/"; // docelowy link dla ludzi
       }, 2000);
     }
   </script>
