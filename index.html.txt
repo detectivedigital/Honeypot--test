@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Przekierowanie...</title>
+  <script>
+    // Boty często klikają wszystko — też to ukryte
+    // Możesz podpiąć do tego logowanie IP po stronie serwera
+
+    // Sprawdzenie User-Agent dla pewności
+    const ua = navigator.userAgent.toLowerCase();
+    const blacklist = ["bot", "crawl", "spider", "discord", "telegram", "facebook", "preview"];
+
+    if (blacklist.some(word => ua.includes(word))) {
+      window.location.href = "https://yourdomain.com/bot-trap"; // link pułapka dla botów
+    } else {
+      setTimeout(() => {
+        window.location.href = "https://example.com"; // docelowy link dla ludzi
+      }, 2000);
+    }
+  </script>
+</head>
+<body>
+  <p>Trwa przekierowanie... proszę czekać</p>
+
+  <!-- Honeypot link – niewidoczny dla człowieka -->
+  <a href="https://yourdomain.com/bot-trap" style="display:none;">Ukryty link</a>
+</body>
+</html>
